@@ -55,10 +55,14 @@ st.markdown(
 
 @st.cache_resource
 def load_model():
+    import requests
+    from io import BytesIO
 
-    return joblib.load(
-        "land_price_model.pkl"
-    )
+    url = "https://github.com/Vinayyadav0510/land-price-prediction/releases/download/v1.0/land_price_model.pkl"
+    response = requests.get(url)
+    response.raise_for_status()
+
+    return joblib.load(BytesIO(response.content))
 
 
 model = load_model()
